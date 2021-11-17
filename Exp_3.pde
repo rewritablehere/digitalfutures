@@ -19,6 +19,7 @@ Boolean playOnce = true;
 void setup() {
   size(960, 540);
   myMovie1 = new Movie(this, "ch1.mp4");
+  myMusic = new SoundFile(this, "sound.mp3");
   md = loadImage("md.png");
   fb = loadImage("fb.png");
   glaucoma = loadImage("glaucoma.png");
@@ -43,7 +44,14 @@ void draw() {
   }
   switch(instruction)
   {
-  case 'G':
+  case 'N':
+
+if (playOnce) {
+playSoundOnce();
+}
+
+frameRate(18);
+
     print ("Chromesthesia");
     //Chromesthesia -----------------------------------------------------
     if (videoStopped==1)
@@ -79,7 +87,7 @@ void draw() {
     toggle=0;
     image(md, 0, 0);
     break;
-  case 'N':
+  case 'G':
     print ("Glaucoma");
     //Glaucoma -----------------------------------------------------
     if (videoStopped==1)
@@ -95,11 +103,17 @@ void draw() {
     myMovie1.stop();
     videoStopped = 1;
     break;
-  case 'Y' :
-    myMovie1.pause();
-    break;
+  //case 'Y' :
+  //  myMovie1.pause();
+  //  break;
   }
 }
 void movieEvent(Movie m) {
   m.read();
+}
+
+void playSoundOnce()
+{
+myMusic.play();
+playOnce = false;
 }
