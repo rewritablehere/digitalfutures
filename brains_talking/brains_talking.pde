@@ -1,19 +1,24 @@
 /**
- * This is a simple sound file player. Use the mouse position to control playback
- * speed, amplitude and stereo panning.
+ * This plays the every sounds of brains but is reactive to movement and the ditance between the brains
  */
 
+import processing.serial.*;
 import processing.sound.*;
+
+Serial myPort;
 SoundFile soundfile;
 
 void setup() {
   size(640, 360);
   background(255);
+  
+    String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
+  myPort = new Serial(this, portName, 9600);
 
   // Load a soundfile
   soundfile = new SoundFile(this, "sound.mp3");
 
-  // These methods return useful infos about the file
+  // Indication that soundfile was picked up
   println("SFSampleRate= " + soundfile.sampleRate() + " Hz");
   println("SFSamples= " + soundfile.frames() + " samples");
   println("SFDuration= " + soundfile.duration() + " seconds");
@@ -22,21 +27,23 @@ void setup() {
   soundfile.loop();
 }      
 
+char instruction;
 
 void draw() {
+  //reading from serial port
+  if ( myPort.available() > 0) {
+    instruction = myPort.readChar();
+  }
+  if(instruction > 29 && instruction < 81)
+  {
+  
   // Map mouseX from 0.25 to 4.0 for playback rate. 1 equals original playback speed,
   // 2 is twice the speed and will sound an octave higher, 0.5 is half the speed and
-  // will make the file sound one ocative lower.
-  float playbackSpeed = map(mouseX, 0, width, 0.25, 4.0);
-  soundfile.rate(playbackSpeed);
-
-  // Map mouseY from 0.2 to 1.0 for amplitude
-  float amplitude = map(mouseY, 0, width, 0.2, 1.0);
-  soundfile.amp(amplitude);
-
-  // Map mouseY from -1.0 to 1.0 for left to right panning
-  float panning = map(mouseY, 0, height, -1.0, 1.0);
-  soundfile.pan(panning);
+  // will make the file sound one octave lower.
+  float playbackSpeed = map(instruction, -30, -80, 0.25, 4.0);
+  soundfile.rate(playbackSpeed); 
+    
+    
+  } 
   
-
 }
