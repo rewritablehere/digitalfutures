@@ -64,7 +64,7 @@ BLEDevice peripheral;
 
 
 Serial.println(peripheral.rssi());
-if (peripheral.rssi() > -60 and peripheral.rssi() < -30)
+if (peripheral.rssi() > -80 and peripheral.rssi() < -30)
 {
 digitalWrite(LEDR, HIGH);
 // digitalWrite(D10, HIGH);
