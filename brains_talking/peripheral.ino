@@ -21,8 +21,8 @@ enum {
   GESTURE_RIGHT = 3
 };
 
-const char* deviceServiceUuid = "aaf74645-76af-42c0-b22f-4d523025f4c2";
-const char* deviceServiceCharacteristicUuid = "aaf74645-76af-42c0-b22f-4d523025f4c2";
+const char* deviceServiceUuid = "8ff73726-5b22-11ec-bf63-0242ac130002";
+const char* deviceServiceCharacteristicUuid = "8ff73726-5b22-11ec-bf63-0242ac130002";
 
 int gesture = -1;
 
