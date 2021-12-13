@@ -1,6 +1,6 @@
-/**
- * This plays the every sounds of brains but is reactive to movement and the ditance between the brains
- */
+/*
+This plays the everyday sounds but is reactive to movement and the ditance between the brains
+*/
 
 import processing.serial.*;
 import processing.sound.*;
@@ -11,9 +11,6 @@ SoundFile soundfile;
 void setup() {
   size(640, 360);
   background(255);
-  
-    String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
-  myPort = new Serial(this, portName, 9600);
 
   // Load a soundfile
   soundfile = new SoundFile(this, "sound.mp3");
@@ -30,20 +27,28 @@ void setup() {
 char instruction;
 
 void draw() {
-  //reading from serial port
-  if ( myPort.available() > 0) {
+  
+  if (myPort.available() > 0) {
     instruction = myPort.readChar();
   }
   if(instruction > 29 && instruction < 81)
   {
+    if (soundfile.isPlaying()) {
+    // Map distance from 0.25 to 4.0 for playback rate. 1 equals original playback speed,
+    // 2 is twice the speed and will sound an octave higher, 0.5 is half the speed and
+    // will make the file sound one octave lower.
+    float playbackSpeed = map(instruction, -30, -80, 0.25, 4.0);
+    soundfile.rate(playbackSpeed); 
+    } else {
+    soundfile.play();
+    }
   
-  // Map mouseX from 0.25 to 4.0 for playback rate. 1 equals original playback speed,
-  // 2 is twice the speed and will sound an octave higher, 0.5 is half the speed and
-  // will make the file sound one octave lower.
-  float playbackSpeed = map(instruction, -30, -80, 0.25, 4.0);
-  soundfile.rate(playbackSpeed); 
-    
-    
-  } 
-  
+
+  } else if (instruction > -30 && soundfile.isPlaying())
+  {
+    soundfile.pause();
+  } else if (instruction < -80 && soundfile.isPlaying())
+  {
+    soundfile.pause();
+  }
 }
