@@ -63,7 +63,7 @@ BLEDevice peripheral;
 
 
 
-Serial.println(peripheral.rssi());
+Serial.println(peripheral.rssi() + 80); // adding 80 to normalize the negative value
 if (peripheral.rssi() > -80 and peripheral.rssi() < -30)
 {
 digitalWrite(LEDR, HIGH);
