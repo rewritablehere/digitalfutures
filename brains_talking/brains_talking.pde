@@ -12,6 +12,9 @@ void setup() {
   size(640, 360);
   background(255);
 
+  String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
+  myPort = new Serial(this, portName, 9600);
+  
   // Load a soundfile
   soundfile = new SoundFile(this, "sound.mp3");
 
