@@ -27,30 +27,30 @@ void setup() {
   soundfile.loop();
 }      
 
-char instruction;
+int instruction;
 
 void draw() {
   
   if (myPort.available() > 0) {
-    instruction = myPort.readChar();
+    instruction = myPort.read(); // reading normalized value and modulating sound file with distance values
   }
-  if(instruction > 29 && instruction < 81)
+  if(instruction > 0 && instruction < 50)
   {
     if (soundfile.isPlaying()) {
     // Map distance from 0.25 to 4.0 for playback rate. 1 equals original playback speed,
     // 2 is twice the speed and will sound an octave higher, 0.5 is half the speed and
     // will make the file sound one octave lower.
-    float playbackSpeed = map(instruction, -30, -80, 0.25, 4.0);
+    float playbackSpeed = map(instruction, 0, 50, 0.25, 4.0);
     soundfile.rate(playbackSpeed); 
     } else {
     soundfile.play();
     }
   
 
-  } else if (instruction > -30 && soundfile.isPlaying())
+  } else if (instruction > 50 && soundfile.isPlaying())
   {
     soundfile.pause();
-  } else if (instruction < -80 && soundfile.isPlaying())
+  } else if (instruction < 0 && soundfile.isPlaying())
   {
     soundfile.pause();
   }
